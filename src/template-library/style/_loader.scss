@@ -1,0 +1,40 @@
+.loader-container {
+	z-index: 9999;
+
+	&.load {
+		display: flex !important;
+		flex-wrap: wrap !important;
+		gap: 10px !important;
+	}
+
+	&.template {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 15px;
+
+		>* {
+			flex-basis: calc(25% - 12px);
+
+			@media (max-width: 1440px) {
+				flex-basis: calc(33.33% - 12px);
+			}
+			@media (max-width: 1024px) {
+				flex-basis: calc(50% - 12px);
+			}
+		}
+
+		.loader {
+			margin-bottom: 0px;
+		}
+	}
+
+	.loader {
+		width: 100%;
+		height: auto;
+		margin-bottom: 20px;
+
+		&.category {
+			margin-bottom: 0px;
+		}
+	}
+}

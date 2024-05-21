@@ -1,0 +1,137 @@
+.gutenkit-template {
+	padding: 44px 40px 40px 40px;
+	background: #EDEFF4;
+
+	.gutenkit-library-list {
+		&__items {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(430px, 1fr));
+			grid-gap: 30px;
+
+			@media (max-width: 1440px) {
+				grid-template-columns: repeat(3, 1fr);
+			}
+
+			@media (max-width: 1024px) {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			@media (max-width: 768px) {
+				grid-template-columns: repeat(1, 1fr);
+			}
+
+			.gutenkit-library-list-item {
+				display: block;
+				overflow: hidden;
+				margin-bottom: 0px;
+				max-height: 600px;
+
+				@include responsive(tablet) {
+					min-height: 450px;
+				}
+
+				.list-item-title-flex {
+					margin: 0px 20px;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+
+					.favorite-icon {
+						margin: 8px 0px;
+						cursor: pointer;
+						position: relative;
+						background: transparent;
+						border: 0px;
+						padding: 0px;
+						// @include tooltip("Add to favorites");
+						// @include hoverTooltip;
+					}
+
+				}
+
+				&__title {
+					text-align: left;
+					display: inline-flex;
+					flex-direction: column;
+					padding-top: 0px;
+
+					.item-title {
+						position: relative;
+						color: #111722;
+						font-family: "Roboto", sans-serif;
+						font-size: 16px;
+						font-weight: 600;
+						transition: all 0.3s ease-in-out;
+
+						&:hover {
+							color: #3B67FE;
+						}
+					}
+
+					&.is-premium {
+						.item-title {
+							&::after {
+								content: "Pro";
+								background-color: #FE0467;
+								color: #fff;
+								font-weight: 500;
+								font-size: 13px;
+								display: inline-flex;
+								font-family: "Roboto", sans-serif;
+								width: 34px;
+								height: 17px;
+								border-radius: 3px;
+								margin-left: 10px;
+								justify-content: center;
+								align-items: center;
+							}
+						}
+					}
+
+					.counter {
+						color: #111722;
+						font-family: "Roboto", sans-serif;
+						font-size: 14px;
+						font-style: normal;
+						font-weight: 400;
+						line-height: normal;
+						margin-top: 7px;
+					}
+				}
+
+				&-inner-content {
+					&-thumbnail {
+						height: 530px;
+						border: 1px solid #E7E8EC;
+						width: calc(100% - 2px);
+
+						img {
+							position: absolute;
+							width: 100%;
+							top: 0;
+							height: auto;
+							transform: translateY(0);
+							transition: transform 5s ease-in-out;
+						}
+
+						@media (max-width: 1440px) {
+							height: 400px;
+						}
+
+						@media (max-width: 768px) {
+							height: 300px;
+						}
+					}
+				}
+
+				&:hover {
+					.gutenkit-library-list-item-inner-content-thumbnail {
+						img {
+							// transform: translateY(-40%);
+						}
+					}
+				}
+			}
+		}
+	}
+}

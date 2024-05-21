@@ -1,0 +1,141 @@
+.gutenkit-library {
+	&-filter {
+		background-color: #fff;
+		padding: 20px 3px 30px 20px;
+		position: relative;
+		// box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1), 0 5px 9px rgba(0, 0, 0, 0.2);
+		position: fixed;
+		left: 0;
+		box-sizing: border-box;
+		width: 300px;
+
+		&__inner {
+			padding-right: 12px;
+			height: 95vh;
+			overflow-y: auto;
+			@include scrollBar();
+		}
+
+		@include responsive('tablet') {
+			display: none;
+			width: 0px;
+		}
+
+		@include responsive('mobile') {
+			width: 0px;
+			display: none;
+		}
+
+		&-title {
+			font-size: 16px;
+			font-weight: 500;
+			color: #111722;
+			font-family: "Roboto", sans-serif;
+			margin: 0;
+			margin-bottom: 18px;
+		}
+
+		&-color-group {
+			margin-bottom: 20px;
+
+			&-item {
+				outline: none !important;
+
+				&:focus {
+					outline: none !important;
+					box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color) !important;
+				}
+
+				&:first-child {
+					border-radius: 10px 0 0 10px !important;
+				}
+
+				&:last-child {
+					border-radius: 0 10px 10px 0 !important;
+				}
+
+				&.is-active {
+					background-color: #397fe9;
+					color: #fff !important;
+				}
+			}
+		}
+
+		&-category-list {
+			display: flex;
+			flex-direction: column;
+
+			&-item {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 10px;
+			}
+
+			&-title {
+				font-size: 14px;
+				color: #111722;
+				font-family: "Roboto", sans-serif;
+				cursor: pointer;
+				background-color: #FFFFFF;
+				border: 1px solid #EEEFF4;
+				border-radius: 4px;
+				padding: 11px 16px;
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				text-align: left;
+				font-weight: 400;
+				transition: all 0.3s ease-in-out;
+
+				>.list-title-count {
+					font-size: 14px;
+					color: #4D4E50;
+					font-family: "Roboto", sans-serif;
+				}
+
+				&:hover {
+					color: #111722;
+					background: #F1F2F6;
+					border: 1px solid #F1F2F6;
+
+					>.list-title-count {
+						color: #4D4E50;
+					}
+				}
+
+				&.is-active {
+					color: #ffffff;
+					background-color: #111722;
+					border: 1px solid #111722;
+
+					>.list-title-count {
+						color: #F1F2F6;
+					}
+
+					&:hover {
+						color: #ffffff;
+						background-color: #111722;
+						border: 1px solid #111722;
+
+						>.list-title-count {
+							color: #F1F2F6;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	&-filter+&-list {
+		margin-left: 300px;
+
+		@include responsive(tablet) {
+			margin-left: 0px;
+		}
+
+		@include responsive(mobile) {
+			margin-left: 0px;
+		}
+	}
+}

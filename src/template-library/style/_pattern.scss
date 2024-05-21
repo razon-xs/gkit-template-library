@@ -1,0 +1,36 @@
+.gutenkit-pattern-part {
+	padding: 40px;
+}
+
+.gutenkit-pattern {
+	column-count: 4;
+	column-gap: 30px;
+	clear: both;
+	overflow: hidden;
+
+	@media (max-width: 1440px) {
+		column-count: 3;
+	}
+
+	@media (max-width: 1024px) {
+		column-count: 2;
+	}
+
+	@media (max-width: 768px) {
+		column-count: 1;
+	}
+
+	.gutenkit-library-list-item {
+		&-inner-content {
+			&-thumbnail {
+				width: 100%;
+				border: unset;
+
+				img {
+					border: 1px solid #E7E8EC;
+					width: calc(100% - 2px);
+				}
+			}
+		}
+	}
+}

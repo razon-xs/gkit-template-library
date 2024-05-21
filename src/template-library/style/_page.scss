@@ -1,0 +1,69 @@
+.gutenkit-page {
+	padding: 44px 40px 40px 40px;
+	background: #EDEFF4;
+
+	.gutenkit-library-list__items {
+		column-count: 4;
+		column-gap: 30px;
+		clear: both;
+		overflow: hidden;
+
+		@media (max-width: 1440px) {
+			column-count: 3;
+		}
+
+		@media (max-width: 1024px) {
+			column-count: 2;
+		}
+
+		@media (max-width: 768px) {
+			column-count: 1;
+		}
+
+		.gutenkit-library-list-item {
+			display: inline-block;
+			overflow: hidden;
+			// masonry apply then comments unset;
+			max-height: 600px;
+
+			@include responsive(tablet) {
+				min-height: 450px;
+			}
+
+			&-inner-content {
+				&-thumbnail {
+					height: 547px;
+					width: calc(100% - 2px);
+					border: 1px solid #E7E8EC;
+
+					img {
+						width: 100%;
+						// if masonry apply then comments unset;
+						position: absolute;
+						top: 0;
+						height: auto;
+						transform: translateY(0);
+						transition: transform 5s ease-in-out;
+					}
+
+					@media (max-width: 1440px) {
+						height: 400px;
+					}
+
+					@media (max-width: 768px) {
+						height: 300px;
+					}
+				}
+			}
+
+			&:hover {
+				.gutenkit-library-list-item-inner-content-thumbnail {
+					img {
+						// transform: translateY(-40%);
+					}
+				}
+			}
+		}
+
+	}
+}

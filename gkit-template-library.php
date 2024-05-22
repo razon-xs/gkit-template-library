@@ -87,8 +87,6 @@ add_action( 'admin_enqueue_scripts', 'gkit_template_library_admin_enqueue_script
 
 
 function load_gutenkit_plugin() {
-    if ( is_admin() && get_option( 'gutenkit_do_activation_redirect' ) == true ) {
-        delete_option( 'gutenkit_do_activation_redirect' );
-    }
+	delete_option( 'gutenkit_do_activation_redirect' );
 }
 add_action('activate_gutenkit-blocks-addon/gutenkit-blocks-addon.php', 'load_gutenkit_plugin', 999999);

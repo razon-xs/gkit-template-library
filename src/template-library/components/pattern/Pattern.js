@@ -5,6 +5,7 @@ import { useState, useEffect } from '@wordpress/element';
 import classNames from 'classnames';
 import ExternalLink from '../common/ExternalLink';
 import Download from '../icons/Download';
+import usePluginManager from '../../hooks/usePluginManager';
 
 /**
  * Renders a pattern component.
@@ -17,6 +18,12 @@ import Download from '../icons/Download';
 function Pattern({ pattern, handlePatternImport }) {
 	const isProActive = false
 	const [patternImporting, setPatternImporting] = useState(false);
+	const {
+		status,
+		handlePluginInstall,
+		importButtonRef
+	} = usePluginManager(pattern, handlePatternImport, setPatternImporting);
+
 	useEffect(() => {
 		if (patternImporting) {
 			const thumbnails = document.querySelectorAll('.gutenkit-library-list-item-inner-content-thumbnail:not(.is-loading)');
@@ -64,8 +71,9 @@ function Pattern({ pattern, handlePatternImport }) {
 						</ExternalLink>
 					}
 
-					{pattern?.package === 'free' &&
+					{(pattern?.package === 'free' && status === 'Activated') &&
 						<Button
+							ref={importButtonRef}
 							onClick={async () => {
 								setPatternImporting(true);
 								await handlePatternImport(pattern);
@@ -75,6 +83,16 @@ function Pattern({ pattern, handlePatternImport }) {
 							icon={patternImporting ? <Spinner className='importing-spinner' /> : <Download />}
 							disabled={patternImporting ? true : false}>
 							{patternImporting ? __('Importing', 'gutenkit-blocks-addon') : __('Import', 'gutenkit-blocks-addon')}
+						</Button>
+					}
+					{
+						(pattern?.package === 'free' && status !== 'Activated') &&
+						<Button
+							onClick={handlePluginInstall}
+							className='gutenkit-import-button'
+							icon={status === 'Installing' || status === 'Activating'  ? <Spinner className='importing-spinner' /> : <Download />}
+							disabled={patternImporting ? true : false}>
+							{__(`${status}`, 'gutenkit-blocks-addon')}
 						</Button>
 					}
 				</div>

@@ -6,11 +6,18 @@ import classNames from 'classnames';
 import ExternalLink from '../common/ExternalLink';
 import { __ } from '@wordpress/i18n';
 import LazyImage from '../LazyImage';
+import apiFetch from '@wordpress/api-fetch';
+import usePluginManager from '../../hooks/usePluginManager';
 
-function Page({ page, handlePageImport, handlePluginInstall, pluginData }) {
+function Page({ page, handlePageImport}) {
 	const isProActive = false
 	const [pageImporting, setPageImporting] = useState(false);
-	const importButtonRef = useRef(null);
+	const {
+		status,
+		handlePluginInstall,
+		importButtonRef
+	} = usePluginManager(page, handlePageImport, setPageImporting);
+
 	useEffect(() => {
 		if (pageImporting) {
 			const thumbnails = document.querySelectorAll('.gutenkit-library-list-item-inner-content-thumbnail:not(.is-loading)');
@@ -20,26 +27,11 @@ function Page({ page, handlePageImport, handlePluginInstall, pluginData }) {
 		}
 	}, [pageImporting]);
 
-	useEffect(() => {
-		if (page?.package === 'free' && pluginData.status === 'Activated' && importButtonRef.current) {
-			setPageImporting(true);
-			handlePageImport(page).then(() => {
-				setPageImporting(false);
-				setTimeout(() => {
-					dispatch('core/editor').savePost();
-				});
-				setTimeout(() => {
-					window.location.reload();
-				}, 3000);
-			});
-		}
-	}, [page, handlePageImport, pluginData.status]);
-
-
 	const thumbnailClass = classNames(
 		'gutenkit-library-list-item-inner-content-thumbnail',
 		{ 'is-loading': pageImporting },
 	);
+
 	const listItemClass = classNames(
 		'gutenkit-library-list-item',
 		{ 'pro-inactive': page?.package === 'pro' && !isProActive },
@@ -75,7 +67,7 @@ function Page({ page, handlePageImport, handlePluginInstall, pluginData }) {
 						</ExternalLink>
 					}
 					{
-						(page?.package === 'free' && pluginData.status === 'Activated') &&
+						(page?.package === 'free' && status === 'Activated') &&
 						<Button
 							ref={importButtonRef}
 							onClick={async () => {
@@ -90,13 +82,13 @@ function Page({ page, handlePageImport, handlePluginInstall, pluginData }) {
 						</Button>
 					}
 					{
-						(page?.package === 'free' && pluginData.status !== 'Activated') &&
+						(page?.package === 'free' && status !== 'Activated') &&
 						<Button
 							onClick={handlePluginInstall}
 							className='gutenkit-import-button'
-							icon={pageImporting ? <Spinner className='importing-spinner' /> : <Download />}
+							icon={status === 'Installing' || status === 'Activating'  ? <Spinner className='importing-spinner' /> : <Download />}
 							disabled={pageImporting ? true : false}>
-							{__(`${pluginData.status}`, 'gutenkit-blocks-addon')}
+							{__(`${status}`, 'gutenkit-blocks-addon')}
 						</Button>
 					}
 

@@ -13,6 +13,7 @@ import Download from "../icons/Download";
 import ExternalLink from "../common/ExternalLink";
 import FavoriteCount from "../common/FavoriteCount";
 import updateTemplateBlocks from "@/template-library/includes/updateTemplateBlocks";
+import usePluginManager from "../../hooks/usePluginManager";
 
 const SinglePage = () => {
 	const { singleTemplate, syncLibrary, dispatch, imageImportType, payload } = useContextLibrary();
@@ -63,6 +64,7 @@ const SinglePage = () => {
 		apiFetch({ path: '/gutenkit/v1/settings' })
 			.then((data) => {
 				const remoteImagePermission = data.settings.remote_image.status === 'active' ? 'upload' : '';
+				remoteImagePermission = '';
 				dispatch({
 					type: 'SET_IMAGE_IMPORT_TYPE',
 					imageImportType: remoteImagePermission
@@ -92,6 +94,11 @@ const SinglePage = () => {
 			showSinglePage: false
 		});
 	}
+	const {
+		status,
+		handlePluginInstall,
+		importButtonRef
+	} = usePluginManager(heroPage, handlePageImport, setImporting);
 
 	const handleBack = () => {
 		dispatch({
@@ -207,8 +214,9 @@ const SinglePage = () => {
 
 							}
 							{
-								!isPremium && (
+								( singleTemplate?.package === 'free' && status === 'Activated' ) && (
 									<Button
+										ref={ importButtonRef }
 										onClick={async () => {
 											setImporting(true);
 											await handlePageImport(heroPage);
@@ -218,6 +226,17 @@ const SinglePage = () => {
 										icon={importing ? <Spinner className='importing-spinner' /> : <Download />}
 										disabled={importing ? true : false}>
 										{importing ? __('Importing', 'gutenkit-blocks-addon') : __('Import', 'gutenkit-blocks-addon')}
+									</Button>
+								)
+							}
+							{
+								( singleTemplate.package  === 'free' && status !== 'Activated') && (
+									<Button
+										onClick={handlePluginInstall}
+										className='gutenkit-import-button'
+										icon={status === 'Installing' || status === 'Activating' ? <Spinner className='importing-spinner' /> : <Download />}
+										disabled={importing ? true : false}>
+										{__(`${status}`, 'gutenkit-blocks-addon')}
 									</Button>
 								)
 							}

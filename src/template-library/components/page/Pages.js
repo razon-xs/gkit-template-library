@@ -13,20 +13,18 @@ const Pages = () => {
 	const { dispatch, searchInput, imageImportType } = useContextLibrary();
 	const { loading, loadMoreRef, pages, hasMore, } = usePageQuery();
 	const { insertBlocks } = dataDispatch('core/block-editor');
-	const [status, setStatus] = useState('Install');
-	const [pluginData, setPluginData] = useState({});
 
 	useEffect(() => {
 		apiFetch({ path: '/gutenkit/v1/settings' })
 			.then((data) => {
 				const remoteImagePermission = data.settings.remote_image.status === 'active' ? 'upload' : '';
+				remoteImagePermission = ''
 				dispatch({
 					type: 'SET_IMAGE_IMPORT_TYPE',
 					imageImportType: remoteImagePermission
 				});
 			})
 	}, [])
-
 
 	const handlePageImport = async (page) => {
 		const content = parse(page.content);
@@ -42,21 +40,6 @@ const Pages = () => {
 			loadLibrary: false
 		});
 	}
-	const handlePluginInstall = () => {
-		setStatus('Installing');
-		apiFetch({
-			path: `/wp/v2/plugins?slug=gutenkit-blocks-addon&status=active`,
-			method: 'POST',
-			parse: false
-		})
-			.then((data) => {
-				setPluginData(data);
-				setStatus('Activated');
-			})
-			.catch((error) => {
-				setStatus(`Install failed: ${error.message}`);
-			});
-	}
 
 	return (
 		<>
@@ -70,7 +53,7 @@ const Pages = () => {
 							<ContentLoader type='pages' />
 						) : (
 							pages && pages.map((page, index) => (
-								<Page key={page?.ID} page={page} handlePageImport={handlePageImport} pluginData={{ pluginData, status }} handlePluginInstall={handlePluginInstall} />
+								<Page key={page?.ID} page={page} handlePageImport={handlePageImport}/>
 							))
 						)
 					}

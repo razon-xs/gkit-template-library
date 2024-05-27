@@ -131,18 +131,6 @@
 				}
 			}
 		}
-
-		&-list {
-			width: 100%;
-
-			@include responsive(tablet) {
-				margin-left: 0px;
-			}
-
-			@include responsive(mobile) {
-				margin-left: 0px;
-			}
-		}
 	}
 
 	&-pattern-part {
@@ -160,7 +148,7 @@
 }
 
 @include responsive('tablet') {
-
+	
 	.gutenkit-library-body-content__inner {
 		display: flex;
 		justify-content: center;

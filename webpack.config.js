@@ -12,7 +12,7 @@ module.exports = {
     },
     entry: {
         ...defaultConfig.entry(),
-        "template-library/post-editor-template-library": ['./src/template-library/post-editor-template-library.js'],
-        "template-library/site-editor-template-library": ['./src/template-library/site-editor-template-library.js'],
+        "library/post-editor-template-library": ['./src/template-library/post-editor-template-library.js'],
+        "library/site-editor-template-library": ['./src/template-library/site-editor-template-library.js'],
     },
 }

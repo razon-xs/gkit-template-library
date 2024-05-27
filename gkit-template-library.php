@@ -24,10 +24,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
-function gkit_template_library_gkit_template_library_block_init() {
-	register_block_type( __DIR__ . '/build/blocks/test' );
-}
-add_action( 'init', 'gkit_template_library_gkit_template_library_block_init' );
+// function gkit_template_library_gkit_template_library_block_init() {
+// 	register_block_type( __DIR__ . '/build/blocks/test' );
+// }
+// add_action( 'init', 'gkit_template_library_gkit_template_library_block_init' );
 
 /**
  * Enqueue block editor only JavaScript and CSS.
@@ -35,22 +35,22 @@ add_action( 'init', 'gkit_template_library_gkit_template_library_block_init' );
 function gkit_template_library_admin_enqueue_scripts($screen) {
 	// Enqueue block editor JS
 
-		$post_editor_template_library = include plugin_dir_path( __FILE__ ) . 'build/template-library/post-editor-template-library.asset.php';
-		$site_editor_template_library = include plugin_dir_path( __FILE__ ) . 'build/template-library/site-editor-template-library.asset.php';
+		$post_editor_template_library = include plugin_dir_path( __FILE__ ) . 'build/library/post-editor-template-library.asset.php';
+		$site_editor_template_library = include plugin_dir_path( __FILE__ ) . 'build/library/site-editor-template-library.asset.php';
 
 	
 	if ( $screen === 'post.php' || $screen === 'post-new.php' ) {
 		wp_enqueue_script(
 			'gutenkit-post-editor-template-library',
-			plugins_url('build/template-library/post-editor-template-library.js', __FILE__),
+			plugins_url('build/library/post-editor-template-library.js', __FILE__),
 			$post_editor_template_library['dependencies'],
 			$post_editor_template_library['version'],
 			true
 		);
 
 		wp_enqueue_style(
-			'gutenkit-post-editor-template-library',
-			plugins_url('build/template-library/post-editor-template-library.css', __FILE__),
+			'gutenkit-post-editor-library',
+			plugins_url('build/library/post-editor-template-library.css', __FILE__),
 			array(),
 			$post_editor_template_library['version']
 		);
@@ -63,16 +63,16 @@ function gkit_template_library_admin_enqueue_scripts($screen) {
 
 	if ( $screen === 'site-editor.php' ) {
 		wp_enqueue_script(
-			'gutenkit-site-editor-template-library',
-			plugins_url( 'build/template-library/site-editor-template-library.js', __FILE__ ),
+			'gutenkit-site-editor-library',
+			plugins_url( 'build/library/site-editor-template-library.js', __FILE__ ),
 			$site_editor_template_library['dependencies'],
 			$site_editor_template_library['version'],
 			true
 		);
 
 		wp_enqueue_style(
-			'gutenkit-site-editor-template-library',
-			plugins_url( 'build/template-library/site-editor-template-library.css', __FILE__ ),
+			'gutenkit-site-editor-library',
+			plugins_url( 'build/library/site-editor-template-library.css', __FILE__ ),
 			array(),
 			$site_editor_template_library['version']
 		);

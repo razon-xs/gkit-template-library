@@ -14,7 +14,7 @@ const usePluginManager = (type, handleImport, setImporting) => {
 				setStatus(data.status === 'active' ? 'Install Now' : 'Activate Now');
 			})
 			.catch((error) => {
-				console.error('Activated failed: ', error.message);
+				console.warn('Activated failed: ', error.message);
 			});
 	}, []);
 	const activateGutenkit = useCallback(() => {
@@ -29,7 +29,7 @@ const usePluginManager = (type, handleImport, setImporting) => {
 				setStatus('Activated');
 			})
 			.catch((error) => {
-				console.error('Activated failed: ', error.message);
+				console.warn('Activated failed: ', error.message);
 			});
 	}, [pluginData]);
 
@@ -45,7 +45,7 @@ const usePluginManager = (type, handleImport, setImporting) => {
 				setStatus('Activated');
 			})
 			.catch((error) => {
-				console.error('Install failed: ', error.message);
+				console.warn('Install failed: ', error.message);
 			});
 	}, []);
 
@@ -73,7 +73,7 @@ const usePluginManager = (type, handleImport, setImporting) => {
 						window.location.reload();
 					}, 3000);
 				} catch (error) {
-					console.error('import failed: ', error.message);
+					console.warn('import failed: ', error.message);
 					setImporting(false);
 				}
 			}

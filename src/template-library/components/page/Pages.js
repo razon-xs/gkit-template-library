@@ -18,11 +18,13 @@ const Pages = () => {
 		apiFetch({ path: '/gutenkit/v1/settings' })
 			.then((data) => {
 				const remoteImagePermission = data.settings.remote_image.status === 'active' ? 'upload' : '';
-				remoteImagePermission = ''
 				dispatch({
 					type: 'SET_IMAGE_IMPORT_TYPE',
 					imageImportType: remoteImagePermission
 				});
+			})
+			.catch((error) => { 
+				console.warn('Fetch failed: ', error.message);
 			})
 	}, [])
 

@@ -20,10 +20,12 @@ const SinglePage = () => {
 	const { insertBlocks } = dataDispatch('core/block-editor');
 	const isProActive = false
 	const [singlePages, setSinglePages] = useState([]);
+	const [mainHeroPage, setMainHeroPage] = useState(singlePages[0]);
 	const [loading, setLoading] = useState(false);
 	const [importing, setImporting] = useState(false);
-	const heroPage = singlePages[0];
+	const heroPage = mainHeroPage;
 	const isPremium = singleTemplate?.package === 'pro';
+	
 	useEffect(() => {
 		setLoading(true);
 		const queryParams = {
@@ -43,6 +45,7 @@ const SinglePage = () => {
 						return 0;
 					});
 					setSinglePages(data.posts);
+					setMainHeroPage(data.posts[0]);
 				}
 			})
 			.catch(error => {
@@ -64,11 +67,13 @@ const SinglePage = () => {
 		apiFetch({ path: '/gutenkit/v1/settings' })
 			.then((data) => {
 				const remoteImagePermission = data.settings.remote_image.status === 'active' ? 'upload' : '';
-				remoteImagePermission = '';
 				dispatch({
 					type: 'SET_IMAGE_IMPORT_TYPE',
 					imageImportType: remoteImagePermission
 				});
+			})
+			.catch((error) => { 
+				console.warn('Fetch failed: ', error.message);
 			})
 	}, [])
 
@@ -111,9 +116,7 @@ const SinglePage = () => {
 		})
 	}
 	const handleCurrentPage = (index) => {
-		let newPages = [...singlePages];
-		newPages = [newPages[index], ...newPages.filter((_, i) => i !== index)];
-		setSinglePages(newPages);
+		setMainHeroPage(singlePages[index]);
 	}
 
 	const thumbnailClass = classNames(
@@ -164,7 +167,7 @@ const SinglePage = () => {
 													<img width={400} height={400} src={page.screenshot} alt={page.title} />
 												</div>
 												<div className="gutenkit-library-single-page__group-item-content">
-													<h3 className="gutenkit-library-single-page__group-item-title">{page.title.split(' - ')[0]}</h3>
+													<h3 className="gutenkit-library-single-page__group-item-title">{page.title}</h3>
 												</div>
 											</div>
 										</div>

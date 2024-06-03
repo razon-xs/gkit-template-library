@@ -21,6 +21,8 @@
 	}
 
 	.gutenkit-library-list-item {
+		display: block;
+		break-inside: avoid-column;
 		&-inner-content {
 			&-thumbnail {
 				width: 100%;

@@ -1,9 +1,9 @@
 import apiFetch from '@wordpress/api-fetch';
-import { dispatch } from '@wordpress/data';
+import { dispatch as wpDispatch} from '@wordpress/data';
 import { useState, useEffect, useRef, useCallback } from '@wordpress/element';
 
 const usePluginManager = (type, handleImport, setImporting) => {
-	const [status, setStatus] = useState('Install Now');
+	const [status, setStatus] = useState('Install and Import');
 	const [pluginData, setPluginData] = useState(null);
 	const importButtonRef = useRef(null);
 
@@ -11,7 +11,7 @@ const usePluginManager = (type, handleImport, setImporting) => {
 		apiFetch({ path: `/wp/v2/plugins/gutenkit-blocks-addon/gutenkit-blocks-addon` })
 			.then((data) => {
 				setPluginData(data);
-				setStatus(data.status === 'active' ? 'Install Now' : 'Activate Now');
+				setStatus(data.status === 'active' ? 'Install and Import' : 'Activate and Import');
 			})
 			.catch((error) => {
 				console.warn('Activated failed: ', error.message);
@@ -50,9 +50,9 @@ const usePluginManager = (type, handleImport, setImporting) => {
 	}, []);
 
 	const handlePluginInstall = useCallback(() => {
-		if (status === 'Install Now') {
+		if (status === 'Install and Import') {
 			installAndActivateGutenkit();
-		} else if (status === 'Activate Now') {
+		} else if (status === 'Activate and Import') {
 			activateGutenkit();
 		}
 	}, [status, activateGutenkit, installAndActivateGutenkit]);
@@ -68,7 +68,7 @@ const usePluginManager = (type, handleImport, setImporting) => {
 				try {
 					await handleImport(type);
 					setImporting(false);
-					dispatch('core/editor').savePost();
+					wpDispatch('core/editor').savePost();
 					setTimeout(() => {
 						window.location.reload();
 					}, 3000);
@@ -80,7 +80,7 @@ const usePluginManager = (type, handleImport, setImporting) => {
 		};
 
 		importPage();
-	}, [type, status, handleImport, dispatch]);
+	}, [type, status, handleImport, wpDispatch]);
 
 	return {
 		status,

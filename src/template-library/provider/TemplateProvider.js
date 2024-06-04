@@ -8,7 +8,7 @@ const TemplateProvider = ({ children }) => {
 
 	const payload = {
 		version: version,
-		auth: 'other',
+		auth: 'gutenkit',
 		premium: isProActive
 	};
 

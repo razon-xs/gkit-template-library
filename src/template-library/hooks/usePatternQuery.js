@@ -26,12 +26,16 @@ const usePatternQuery = () => {
 			});
 			setHasMore(true);
 		}
+		const newPayload = {
+			...payload,
+			auth: 'other',
+		}
 		const patternFetch = async () => {
 			try {
 				patterns && patterns.length === 0 && setLoading(true);
 				let queryParams = {
 					page: patternsPage,
-					per_page: 16,
+					per_page: 20,
 				};
 				if (templateType === 'patterns') {
 					// Fetch patterns
@@ -40,7 +44,7 @@ const usePatternQuery = () => {
 							const path = addQueryArgs('https://wpmet.com/plugin/gutenkit/wp-json/gkit/v1/layout-manager-api/patterns', queryParams);
 							const response = await fetch(path, {
 								method: 'POST',
-								body: JSON.stringify(payload)
+								body: JSON.stringify(newPayload)
 							});
 							const json = await response.json();
 							dispatch({

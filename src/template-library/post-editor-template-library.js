@@ -27,8 +27,8 @@ const AddRoot = () => {
 	}, [libraryRef.current])
 	return (
 		<MainDashboardButton>
-			<FullscreenModeClose />
 			<div id="gutenkit-template-library" ref={libraryRef} className='is-post-editor'></div>
+			<FullscreenModeClose />
 		</MainDashboardButton>
 	);
 }

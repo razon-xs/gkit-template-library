@@ -7,6 +7,10 @@
 	column-gap: 30px;
 	clear: both;
 	overflow: hidden;
+	.gutenkit-library-list-item{
+		display: block;
+		break-inside: avoid-column;
+	}
 
 	@media (max-width: 1440px) {
 		column-count: 3;
@@ -21,8 +25,6 @@
 	}
 
 	.gutenkit-library-list-item {
-		display: block;
-		break-inside: avoid-column;
 		&-inner-content {
 			&-thumbnail {
 				width: 100%;

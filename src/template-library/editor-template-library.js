@@ -4,23 +4,23 @@ import TemplateLibrary from './components/library/TemplateLibrary';
 import TemplateProvider from './provider/TemplateProvider';
 import { registerPlugin } from '@wordpress/plugins';
 import { subscribe } from '@wordpress/data';
-import "./style/template-library.scss";
+import './style/template-library.scss';
 
 const AddRoot = () => {
-	const [firstLoad, setFirstLoad] = useState(true);
+	const [ firstLoad, setFirstLoad ] = useState( true );
 
-	useEffect(() => {
-		const editorWindow = window.frames['editor-canvas'] || window;
+	useEffect( () => {
+		const editorWindow = window.frames[ 'editor-canvas' ] || window;
 		const { document } = editorWindow;
 
-		if (!firstLoad) return;
-		const renderButton = (selector) => {
-			const patternButton = document.createElement('div');
-			patternButton.classList.add('is-post-editor');
+		if ( ! firstLoad ) return;
+		const renderButton = ( selector ) => {
+			const patternButton = document.createElement( 'div' );
+			patternButton.classList.add( 'is-post-editor' );
 			patternButton.id = 'gutenkit-template-library';
-			selector.appendChild(patternButton);
+			selector.appendChild( patternButton );
 
-			const root = createRoot(patternButton);
+			const root = createRoot( patternButton );
 			root.render(
 				<TemplateProvider>
 					<TemplateLibrary />
@@ -28,26 +28,29 @@ const AddRoot = () => {
 			);
 		};
 
-		const unsubscribe = subscribe(() => {
-			const getEl = (selector) => document.querySelector(selector);
-			const editToolbar = getEl('.edit-post-header__toolbar') || getEl('.editor-header__toolbar') || getEl('.edit-site-header-edit-mode__start');
-			if (!editToolbar) {
+		const unsubscribe = subscribe( () => {
+			const getEl = ( selector ) => document.querySelector( selector );
+			const editToolbar =
+				getEl( '.edit-post-header__toolbar' ) ||
+				getEl( '.editor-header__toolbar' ) ||
+				getEl( '.edit-site-header-edit-mode__start' );
+			if ( ! editToolbar ) {
 				return;
 			}
 
-			if (!editToolbar.querySelector('#gutenkit-template-library') && firstLoad) {
-				setFirstLoad(false);
-				renderButton(editToolbar);
+			if (
+				! editToolbar.querySelector( '#gutenkit-template-library' ) &&
+				firstLoad
+			) {
+				setFirstLoad( false );
+				renderButton( editToolbar );
 			}
-		});
-	}, [firstLoad]);
-
+		} );
+	}, [ firstLoad ] );
 
 	return null;
-}
+};
 
-
-
-registerPlugin('gutenkit-template-library', {
+registerPlugin( 'gutenkit-template-library', {
 	render: AddRoot,
-});
+} );

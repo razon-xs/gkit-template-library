@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "@wordpress/element";
+import { useEffect, useRef } from '@wordpress/element';
 
 /**
  * Debounces a callback function with a specified delay.
@@ -7,24 +7,24 @@ import { useEffect, useRef } from "@wordpress/element";
  * @param {number} delay - The delay in milliseconds
  * @return {function} The debounced callback function
  */
-const useDebounce = (callback, delay) => {
-	const timeOutIdRef = useRef(null);
-	const previousValueRef = useRef(null);
+const useDebounce = ( callback, delay ) => {
+	const timeOutIdRef = useRef( null );
+	const previousValueRef = useRef( null );
 
-	useEffect(() => {
+	useEffect( () => {
 		return () => {
-			clearTimeout(timeOutIdRef.current);
+			clearTimeout( timeOutIdRef.current );
 		};
-	}, []);
+	}, [] );
 
-	const debounceCallback = (value) => {
-		clearTimeout(timeOutIdRef.current);
+	const debounceCallback = ( value ) => {
+		clearTimeout( timeOutIdRef.current );
 
-		if (value !== previousValueRef.current) {
-			timeOutIdRef.current = setTimeout(() => {
-				callback(value);
+		if ( value !== previousValueRef.current ) {
+			timeOutIdRef.current = setTimeout( () => {
+				callback( value );
 				previousValueRef.current = value;
-			}, delay);
+			}, delay );
 		}
 	};
 

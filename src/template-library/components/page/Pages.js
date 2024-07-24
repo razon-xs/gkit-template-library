@@ -1,70 +1,85 @@
-import useContextLibrary from "../../hooks/useContextLibrary";
-import { memo, useEffect, useState } from "@wordpress/element";
-import Page from "./Page";
-import { __ } from "@wordpress/i18n";
+import useContextLibrary from '../../hooks/useContextLibrary';
+import { memo, useEffect, useState } from '@wordpress/element';
+import Page from './Page';
+import { __ } from '@wordpress/i18n';
 import { dispatch as dataDispatch } from '@wordpress/data';
 import { parse } from '@wordpress/blocks';
-import Empty from "../common/Empty";
-import usePageQuery from "@/template-library/hooks/usePageQuery";
-import ContentLoader from "../common/ContentLoader";
-import updateTemplateBlocks from "@/template-library/includes/updateTemplateBlocks";
+import Empty from '../common/Empty';
+import usePageQuery from '@/template-library/hooks/usePageQuery';
+import ContentLoader from '../common/ContentLoader';
+import updateTemplateBlocks from '@/template-library/includes/updateTemplateBlocks';
 import apiFetch from '@wordpress/api-fetch';
 const Pages = () => {
 	const { dispatch, searchInput, imageImportType } = useContextLibrary();
-	const { loading, loadMoreRef, pages, hasMore, } = usePageQuery();
-	const { insertBlocks } = dataDispatch('core/block-editor');
+	const { loading, loadMoreRef, pages, hasMore } = usePageQuery();
+	const { insertBlocks } = dataDispatch( 'core/block-editor' );
 
-	useEffect(() => {
-		apiFetch({ path: '/gutenkit/v1/settings' })
-			.then((data) => {
-				const remoteImagePermission = data.settings.remote_image.status === 'active' ? 'upload' : '';
-				dispatch({
+	useEffect( () => {
+		apiFetch( { path: '/gutenkit/v1/settings' } )
+			.then( ( data ) => {
+				const remoteImagePermission =
+					data.settings.remote_image.status === 'active'
+						? 'upload'
+						: '';
+				dispatch( {
 					type: 'SET_IMAGE_IMPORT_TYPE',
-					imageImportType: remoteImagePermission
-				});
-			})
-			.catch((error) => { 
-				console.warn('Fetch failed: ', error.message);
-			})
-	}, [])
+					imageImportType: remoteImagePermission,
+				} );
+			} )
+			.catch( ( error ) => {
+				console.warn( 'Fetch failed: ', error.message );
+			} );
+	}, [] );
 
-	const handlePageImport = async (page) => {
-		const content = parse(page.content);
-		if (imageImportType === "upload") {
-			const newUpdatedContent = await updateTemplateBlocks(content); // Await the top-level call
-			insertBlocks(newUpdatedContent);
+	const handlePageImport = async ( page ) => {
+		const content = parse( page.content );
+		if ( imageImportType === 'upload' ) {
+			const newUpdatedContent = await updateTemplateBlocks( content ); // Await the top-level call
+			insertBlocks( newUpdatedContent );
 		} else {
-			insertBlocks(content);
+			insertBlocks( content );
 		}
 
-		await dispatch({
+		await dispatch( {
 			type: 'SET_LOAD_LIBRARY',
-			loadLibrary: false
-		});
-	}
+			loadLibrary: false,
+		} );
+	};
 
 	return (
 		<>
 			<div className="gutenkit-library-list gutenkit-page">
 				<div className="gutenkit-library-list__header">
-					<h2 className="gutenkit-library-list__title">{__('Pages', 'gutenkit-blocks-addon')}</h2>
+					<h2 className="gutenkit-library-list__title">
+						{ __( 'Pages', 'gutenkit-blocks-addon' ) }
+					</h2>
 				</div>
 				<ul className="gutenkit-library-list__items">
-					{
-						pages && pages.length === 0 && loading ? (
-							<ContentLoader type='pages' />
-						) : (
-							pages && pages.map((page, index) => (
-								<Page key={page?.ID} page={page} handlePageImport={handlePageImport}/>
-							))
-						)
-					}
+					{ pages && pages.length === 0 && loading ? (
+						<ContentLoader type="pages" />
+					) : (
+						pages &&
+						pages.map( ( page, index ) => (
+							<Page
+								key={ page?.ID }
+								page={ page }
+								handlePageImport={ handlePageImport }
+							/>
+						) )
+					) }
 				</ul>
-				{hasMore && <button className="has-more-data" ref={loadMoreRef}></button>}
-				{((pages && pages.length === 0 && searchInput !== '')) && <Empty />}
+				{ hasMore && (
+					<button
+						className="has-more-data"
+						ref={ loadMoreRef }
+					></button>
+				) }
+				{ pages && pages.length === 0 && searchInput !== '' && (
+					<Empty />
+				) }
 			</div>
 		</>
-	)
-}
+	);
+};
 
-export default memo(Pages);
+export default memo( Pages );

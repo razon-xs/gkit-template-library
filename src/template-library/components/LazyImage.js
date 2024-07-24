@@ -1,51 +1,61 @@
 import { useEffect, useState, useRef } from '@wordpress/element';
 import getPlaceholder from '../../utils/getPlaceholder';
 
-const LazyImage = ({ src, alt }) => {
+const LazyImage = ( { src, alt } ) => {
 	const placeholder = getPlaceholder();
-	const [imageSrc, setImageSrc] = useState(placeholder);
-	const [isIntersecting, setIsIntersecting] = useState(false);
-	const imgRef = useRef(null);
+	const [ imageSrc, setImageSrc ] = useState( placeholder );
+	const [ isIntersecting, setIsIntersecting ] = useState( false );
+	const imgRef = useRef( null );
 
-	useEffect(() => {
+	useEffect( () => {
 		let observer;
 		let image;
 
-		const handleIntersection = (entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					setIsIntersecting(true);
-					observer.unobserve(image);
+		const handleIntersection = ( entries ) => {
+			entries.forEach( ( entry ) => {
+				if ( entry.isIntersecting ) {
+					setIsIntersecting( true );
+					observer.unobserve( image );
 				}
-			});
+			} );
 		};
 
 		// Create an IntersectionObserver and observe the image element
-		if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
-			observer = new IntersectionObserver(handleIntersection);
+		if (
+			typeof window !== 'undefined' &&
+			'IntersectionObserver' in window
+		) {
+			observer = new IntersectionObserver( handleIntersection );
 			image = imgRef.current;
-			if (image) {
-				observer.observe(image);
+			if ( image ) {
+				observer.observe( image );
 			}
 		}
 
 		// Load the image once it comes into the viewport
-		if (isIntersecting) {
+		if ( isIntersecting ) {
 			const img = new Image();
 			img.src = src;
 			img.onload = () => {
-				setImageSrc(src);
+				setImageSrc( src );
 			};
 		}
 
 		return () => {
-			if (observer && image) {
-				observer.unobserve(image);
+			if ( observer && image ) {
+				observer.unobserve( image );
 			}
 		};
-	}, [src, isIntersecting]);
+	}, [ src, isIntersecting ] );
 
-	return <img className="lazy-image" src={imageSrc} alt={alt} ref={imgRef} />;
+	return (
+		<img
+			className="lazy-image"
+			src={ imageSrc }
+			alt={ alt }
+			ref={ imgRef }
+		/>
+	);
 };
 
 export default LazyImage;

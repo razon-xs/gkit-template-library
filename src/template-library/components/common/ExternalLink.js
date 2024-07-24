@@ -1,5 +1,5 @@
-import LinkIcon from "../icons/Link";
-import PreviewIcon from "../icons/Preview";
+import LinkIcon from '../icons/Link';
+import PreviewIcon from '../icons/Preview';
 
 /**
  * Renders an external link component.
@@ -10,20 +10,21 @@ import PreviewIcon from "../icons/Preview";
  * @param {string} [props.rel] - The rel attribute for the link.
  * @returns {JSX.Element} The rendered external link component.
  */
-const ExternalLink = ({ href, icon = true, children, ...props }) => {
-	const rel = props.rel ? `${props.rel} noreferrer noopener` : 'noreferrer noopener';
+const ExternalLink = ( { href, icon = true, children, ...props } ) => {
+	const rel = props.rel
+		? `${ props.rel } noreferrer noopener`
+		: 'noreferrer noopener';
 
 	return (
 		<a
-			{...props}
+			{ ...props }
 			className="gutenkit-external-link"
-			href={href}
+			href={ href }
 			target="_blank"
-			rel={rel}
+			rel={ rel }
 		>
-			{children}
-			{icon ? <LinkIcon /> : <PreviewIcon />}
-
+			{ children }
+			{ icon ? <LinkIcon /> : <PreviewIcon /> }
 		</a>
 	);
 };

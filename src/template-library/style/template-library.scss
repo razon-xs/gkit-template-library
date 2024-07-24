@@ -95,6 +95,7 @@
 	}
 
 	&-body {
+		position: static;
 		&-content {
 			background-color: #EDEFF4 !important;
 		}
@@ -145,6 +146,10 @@
 }
 
 .edit-post-header__center {
+	order: 2 !important;
+}
+
+.editor-header__center {
 	order: 2 !important;
 }
 

@@ -12,7 +12,6 @@ module.exports = {
     },
     entry: {
         ...defaultConfig.entry(),
-        "library/post-editor-template-library": ['./src/template-library/post-editor-template-library.js'],
-        "library/site-editor-template-library": ['./src/template-library/site-editor-template-library.js'],
+        "library/editor-template-library": ['./src/template-library/editor-template-library.js'],
     },
 }

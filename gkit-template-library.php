@@ -33,48 +33,22 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Enqueue block editor only JavaScript and CSS.
  */
 function gkit_template_library_admin_enqueue_scripts($screen) {
-	// Enqueue block editor JS
-
-		$post_editor_template_library = include plugin_dir_path( __FILE__ ) . 'build/library/post-editor-template-library.asset.php';
-		$site_editor_template_library = include plugin_dir_path( __FILE__ ) . 'build/library/site-editor-template-library.asset.php';
-
-	
-	if ( $screen === 'post.php' || $screen === 'post-new.php' ) {
+	// Enqueue block editor JS and CSS
+	$editor_template_library = include plugin_dir_path( __FILE__ ) . 'build/library/editor-template-library.asset.php';
+	if ( $screen === 'post.php' || $screen === 'post-new.php' || $screen === 'site-editor.php' ) {
 		wp_enqueue_script(
-			'gutenkit-post-editor-template-library',
-			plugins_url('build/library/post-editor-template-library.js', __FILE__),
-			$post_editor_template_library['dependencies'],
-			$post_editor_template_library['version'],
+			'gutenkit-editor-template-library',
+			plugins_url('build/library/editor-template-library.js', __FILE__),
+			$editor_template_library['dependencies'],
+			$editor_template_library['version'],
 			true
 		);
 
 		wp_enqueue_style(
-			'gutenkit-post-editor-library',
-			plugins_url('build/library/post-editor-template-library.css', __FILE__),
+			'gutenkit-editor-template-library',
+			plugins_url('build/library/editor-template-library.css', __FILE__),
 			array(),
-			$post_editor_template_library['version']
-		);
-		// Google Roboto Font
-		wp_enqueue_style(
-			'gutenkit-google-fonts', 
-			'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap'
-		);
-	}
-
-	if ( $screen === 'site-editor.php' ) {
-		wp_enqueue_script(
-			'gutenkit-site-editor-library',
-			plugins_url( 'build/library/site-editor-template-library.js', __FILE__ ),
-			$site_editor_template_library['dependencies'],
-			$site_editor_template_library['version'],
-			true
-		);
-
-		wp_enqueue_style(
-			'gutenkit-site-editor-library',
-			plugins_url( 'build/library/site-editor-template-library.css', __FILE__ ),
-			array(),
-			$site_editor_template_library['version']
+			$editor_template_library['version']
 		);
 		// Google Roboto Font
 		wp_enqueue_style(

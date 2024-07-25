@@ -46,6 +46,6 @@ const AddRoot = () => {
 	return null;
 };
 
-registerPlugin( 'gutenkit-template-library', {
+registerPlugin( 'extra-template-library', {
 	render: AddRoot,
 } );

@@ -1,5 +1,4 @@
-import { useRef, useEffect, useState } from '@wordpress/element';
-import { createRoot } from 'react-dom/client';
+import { useRef, useEffect, createRoot } from '@wordpress/element';
 import TemplateLibrary from './components/library/TemplateLibrary';
 import TemplateProvider from './provider/TemplateProvider';
 import { registerPlugin } from '@wordpress/plugins';
@@ -7,46 +6,42 @@ import { subscribe } from '@wordpress/data';
 import './style/template-library.scss';
 
 const AddRoot = () => {
-	const [ firstLoad, setFirstLoad ] = useState( true );
-
+	const rootRef = useRef( null );
+	const isInitialLoad = useRef( true );
 	useEffect( () => {
-		const editorWindow = window.frames[ 'editor-canvas' ] || window;
-		const { document } = editorWindow;
-
-		if ( ! firstLoad ) return;
-		const renderButton = ( selector ) => {
-			const patternButton = document.createElement( 'div' );
-			patternButton.classList.add( 'is-post-editor' );
-			patternButton.id = 'gutenkit-template-library';
-			selector.appendChild( patternButton );
-
-			const root = createRoot( patternButton );
-			root.render(
-				<TemplateProvider>
-					<TemplateLibrary />
-				</TemplateProvider>
-			);
-		};
+		if ( ! isInitialLoad.current ) return;
 
 		const unsubscribe = subscribe( () => {
-			const getEl = ( selector ) => document.querySelector( selector );
-			const editToolbar =
-				getEl( '.edit-post-header__toolbar' ) ||
-				getEl( '.editor-header__toolbar' ) ||
-				getEl( '.edit-site-header-edit-mode__start' );
-			if ( ! editToolbar ) {
-				return;
+			const wrapper = document.querySelector(
+				'.edit-post-header__toolbar, .editor-header__toolbar, .edit-site-header-edit-mode__start'
+			);
+			if ( ! wrapper ) return;
+
+			let rootElement = document.getElementById(
+				'gutenkit-template-library'
+			);
+			if ( ! rootElement ) {
+				rootElement = document.createElement( 'div' );
+				rootElement.id = 'gutenkit-template-library';
+				wrapper.appendChild( rootElement );
 			}
 
-			if (
-				! editToolbar.querySelector( '#gutenkit-template-library' ) &&
-				firstLoad
-			) {
-				setFirstLoad( false );
-				renderButton( editToolbar );
+			if ( ! rootRef.current && rootElement ) {
+				rootRef.current = createRoot( rootElement );
+			}
+
+			if ( rootRef.current ) {
+				rootRef.current.render(
+					<TemplateProvider>
+						<TemplateLibrary />
+					</TemplateProvider>
+				);
+				isInitialLoad.current = false;
 			}
 		} );
-	}, [ firstLoad ] );
+
+		return () => unsubscribe();
+	}, [] );
 
 	return null;
 };

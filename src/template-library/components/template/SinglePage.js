@@ -33,7 +33,7 @@ const SinglePage = () => {
 			id: singleTemplate?.ID,
 		};
 		const url = addQueryArgs(
-			'https://wpmet.com/plugin/gutenkit/wp-json/gkit/v1/layout-manager-api/templates',
+			'https://wpgutenkit.com/wp-json/gkit/v1/layout-manager-api/templates',
 			queryParams
 		);
 		fetch( url, {
@@ -249,7 +249,7 @@ const SinglePage = () => {
 							{ isPremium && ! isProActive && (
 								<ExternalLink
 									href={
-										'https://wpmet.com/plugin/gutenkit/pricing'
+										'https://wpgutenkit.com/pricing'
 									}
 								>
 									{ __(

@@ -13,7 +13,7 @@ const useCategoryQuery = () => {
 			try {
 				setLoading( true );
 				const response = await fetch(
-					'https://wpmet.com/plugin/gutenkit/wp-json/gkit/v1/layout-manager-api/patterns/categories',
+					'https://wpgutenkit.com/wp-json/gkit/v1/layout-manager-api/patterns/categories',
 					{
 						method: 'POST',
 						body: JSON.stringify( payload ),

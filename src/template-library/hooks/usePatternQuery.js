@@ -51,7 +51,7 @@ const usePatternQuery = () => {
 					if ( searchInput === '' ) {
 						if ( filter.category === 'all' ) {
 							const path = addQueryArgs(
-								'https://wpmet.com/plugin/gutenkit/wp-json/gkit/v1/layout-manager-api/patterns',
+								'https://wpgutenkit.com/wp-json/gkit/v1/layout-manager-api/patterns',
 								queryParams
 							);
 							const response = await fetch( path, {
@@ -76,7 +76,7 @@ const usePatternQuery = () => {
 							queryParams.page = 1;
 							queryParams.per_page = 50;
 							const path = addQueryArgs(
-								'https://wpmet.com/plugin/gutenkit/wp-json/gkit/v1/layout-manager-api/patterns',
+								'https://wpgutenkit.com/wp-json/gkit/v1/layout-manager-api/patterns',
 								queryParams
 							);
 							const response = await fetch( path, {
@@ -102,7 +102,7 @@ const usePatternQuery = () => {
 						queryParams.page = 1;
 						queryParams.per_page = 100;
 						const path = addQueryArgs(
-							'https://wpmet.com/plugin/gutenkit/wp-json/gkit/v1/layout-manager-api/patterns',
+							'https://wpgutenkit.com/wp-json/gkit/v1/layout-manager-api/patterns',
 							queryParams
 						);
 						const response = await fetch( path, {

@@ -67,7 +67,7 @@
 #site-editor {
 	.hide-editor {
 		display: none;
-		
+
 		& + .edit-site-layout__header {
 			display: none;
 		}
@@ -143,14 +143,6 @@
 .edit-post-header-toolbar {
 	flex-grow: 0 !important;
 	order: 0 !important;
-}
-
-.edit-post-header__center {
-	order: 2 !important;
-}
-
-.editor-header__center {
-	order: 2 !important;
 }
 
 #gutenkit-template-library {

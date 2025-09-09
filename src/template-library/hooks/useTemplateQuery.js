@@ -41,7 +41,7 @@ const useTemplateQuery = () => {
 				if ( templateType === 'templates' ) {
 					if ( searchInput === '' ) {
 						const path = addQueryArgs(
-							'https://wpmet.com/plugin/gutenkit/wp-json/gkit/v1/layout-manager-api/templates',
+							'https://wpgutenkit.com/wp-json/gkit/v1/layout-manager-api/templates',
 							queryParams
 						);
 						const response = await fetch( path, {
@@ -69,7 +69,7 @@ const useTemplateQuery = () => {
 						queryParams.page = 1;
 						queryParams.per_page = 100;
 						const path = addQueryArgs(
-							'https://wpmet.com/plugin/gutenkit/wp-json/gkit/v1/layout-manager-api/templates',
+							'https://wpgutenkit.com/wp-json/gkit/v1/layout-manager-api/templates',
 							queryParams
 						);
 						const response = await fetch( path, {

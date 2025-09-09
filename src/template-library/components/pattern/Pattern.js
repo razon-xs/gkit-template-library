@@ -75,7 +75,7 @@ function Pattern( { pattern, handlePatternImport } ) {
 					) }
 
 					{ pattern?.package === 'pro' && ! isProActive && (
-						<ExternalLink href="https://wpmet.com/plugin/gutenkit/">
+						<ExternalLink href="https://wpgutenkit.com/">
 							{ __(
 								'Requires GutenKit Blocks PRO',
 								'gutenkit-blocks-addon'
